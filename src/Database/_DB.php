@@ -4,7 +4,6 @@ namespace STM\Database;
 
 class DB
 {
-
     /**
      * Database Connection
      *
