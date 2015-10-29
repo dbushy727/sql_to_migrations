@@ -8,47 +8,47 @@ class DB
     /**
      * Database Connection
      *
-     * @author Danny Bushkanets     d.bushkanets@gmail.com
-     * @var Database Object
+     * @author  Danny Bushkanets        d.bushkanets@gmail.com
+     * @var     Database Object
      */
     protected $db;
 
     /**
      * Hostname of database server
      *
-     * @author Danny Bushkanets     d.bushkanets@gmail.com
-     * @var String
+     * @author  Danny Bushkanets        d.bushkanets@gmail.com
+     * @var     String
      */
     protected $hostname;
 
     /**
      * Username to get into database server
      *
-     * @author Danny Bushkanets     d.bushkanets@gmail.com
-     * @var String
+     * @author  Danny Bushkanets        d.bushkanets@gmail.com
+     * @var     String
      */
     protected $username;
 
     /**
      * Password to get into database server
      *
-     * @author Danny Bushkanets     d.bushkanets@gmail.com
-     * @var String
+     * @author  Danny Bushkanets        d.bushkanets@gmail.com
+     * @var     String
      */
     protected $password;
 
     /**
      * Name of the database
      *
-     * @author Danny Bushkanets     d.bushkanets@gmail.com
-     * @var String
+     * @author  Danny Bushkanets        d.bushkanets@gmail.com
+     * @var     String
      */
     protected $db_name;
 
     /**
      * Tables in this database
-     * @author Danny Bushkanets     d.bushkanets@gmail.com
-     * @var Array
+     * @author  Danny Bushkanets        d.bushkanets@gmail.com
+     * @var     Array
      */
     protected $tables;
 
@@ -56,6 +56,7 @@ class DB
      * Establish connection once the instance has been created
      *
      * @author Danny Bushkanets     d.bushkanets@gmail.com
+     * @return Void
      */
     public function __construct()
     {
@@ -72,19 +73,19 @@ class DB
      * Establish connection to database
      *
      * @author Danny Bushkanets     d.bushkanets@gmail.com
-     * @return void
+     * @return Void
      */
     protected function connect()
     {
-        $this->db = new \mysqli($hostname, $username, $password, $db_name);
+        $this->db = new \mysqli($this->hostname, $this->username, $this->password, $this->db_name);
     }
 
     /**
      * Get datatype symbols for all parameters
      *
-     * @author Danny Bushkanets     d.bushkanets@gmail.com
-     * @param  Array  $params       parameters that would be used in a query
-     * @return string               string of all datatype symbols with no delimiter
+     * @author Danny Bushkanets                     d.bushkanets@gmail.com
+     * @param  Array                $params         parameters that would be used in a query
+     * @return String                               string of all datatype symbols with no delimiter
      */
     public function paramDataTypes(Array $params)
     {
@@ -99,10 +100,10 @@ class DB
     /**
      * Run a query against the database
      *
-     * @author Danny Bushkanets     d.bushkanets@gmail.com
-     * @param  string $query        SQL Statement
-     * @param  Array  $params       bindings for the query to make it safer against sql injection
-     * @return mysqli_result        mysqli result object containing data about query
+     * @author Danny Bushkanets                     d.bushkanets@gmail.com
+     * @param  string               $query          SQL Statement
+     * @param  Array                $params         bindings for the query to make it safer against sql injection
+     * @return Mysqli_Result                        mysqli result object containing data about query
      */
     public function query($query, Array $params = [])
     {
@@ -157,5 +158,16 @@ class DB
         }
 
         return $this->tables;
+    }
+
+    /**
+     * Get the name of the database
+     *
+     * @author Danny Bushkanets     d.bushkanets@gmail.com
+     * @return String               Name of the database
+     */
+    public function name()
+    {
+        return $this->db_name;
     }
 }
