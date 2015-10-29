@@ -7,12 +7,16 @@ class DB
 
     /**
      * Database Connection
+     *
+     * @author Danny Bushkanets     d.bushkanets@gmail.com
      * @var Database Object
      */
     protected $db;
 
     /**
      * Establish connection once the instance has been created
+     *
+     * @author Danny Bushkanets     d.bushkanets@gmail.com
      */
     public function __construct()
     {
