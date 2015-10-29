@@ -45,7 +45,7 @@ class Migration
      */
     public function __construct(Table $table, $framework = 'Laravel')
     {
-        $this->framework    = $framework;
+        $this->framework    = strtolower($framework);
         $this->table        = $table;
     }
 
