@@ -14,12 +14,57 @@ class DB
     protected $db;
 
     /**
+     * Hostname of database server
+     *
+     * @author Danny Bushkanets     d.bushkanets@gmail.com
+     * @var String
+     */
+    protected $hostname;
+
+    /**
+     * Username to get into database server
+     *
+     * @author Danny Bushkanets     d.bushkanets@gmail.com
+     * @var String
+     */
+    protected $username;
+
+    /**
+     * Password to get into database server
+     *
+     * @author Danny Bushkanets     d.bushkanets@gmail.com
+     * @var String
+     */
+    protected $password;
+
+    /**
+     * Name of the database
+     *
+     * @author Danny Bushkanets     d.bushkanets@gmail.com
+     * @var String
+     */
+    protected $db_name;
+
+    /**
+     * Tables in this database
+     * @author Danny Bushkanets     d.bushkanets@gmail.com
+     * @var Array
+     */
+    protected $tables;
+
+    /**
      * Establish connection once the instance has been created
      *
      * @author Danny Bushkanets     d.bushkanets@gmail.com
      */
     public function __construct()
     {
+        // Get database credentials from environment variables
+        $this->hostname = getenv("MYSQL_HOSTNAME");
+        $this->username = getenv("MYSQL_USERNAME");
+        $this->password = getenv("MYSQL_PASSWORD");
+        $this->db_name  = getenv("MYSQL_DB_NAME");
+
         $this->connect();
     }
 
@@ -31,11 +76,6 @@ class DB
      */
     protected function connect()
     {
-        $hostname = getenv("MYSQL_HOSTNAME");
-        $username = getenv("MYSQL_USERNAME");
-        $password = getenv("MYSQL_PASSWORD");
-        $db_name  = getenv("MYSQL_DB_NAME");
-
         $this->db = new \mysqli($hostname, $username, $password, $db_name);
     }
 
@@ -96,5 +136,26 @@ class DB
         }
 
         return $this->db->query($query);
+    }
+
+    /**
+     * Retrieve all the tables in this database
+     *
+     * @author Danny Bushkanets     d.bushkanets@gmail.com
+     * @return Array                All the tables from the database
+     */
+    public function tables()
+    {
+        if (!empty($this->tables)) {
+            return $this->tables;
+        }
+
+        $query = $this->query("show tables");
+
+        while ($table = $query->fetch_assoc()) {
+            $this->tables[] = $table["Tables_in_{$this->db_name}"];
+        }
+
+        return $this->tables;
     }
 }
